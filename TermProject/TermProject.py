@@ -76,14 +76,12 @@ while True:
             black = np.vstack((dst, blank_image))
         white = cv2.bitwise_not(black)
         #이미지 보여주기 + 저장
-        #filename1 = "img/"+filename+"1.jpg"
-        # filename2 = "img/"+filename+"2.jpg"
-        cv2.imshow('black_version', black)
-        cv2.imshow('white_version', white)
 
-    # 'q' 눌러서 프로그램 종료
+        cv2.imshow('black_version', black)
+        cv2.imwrite("black_version_PostCard.jpg", black)
+        cv2.imshow('white_version', white)
+        cv2.imwrite("white_version_PostCard.jpg", white)
+
+    # 'q' 눌러서 프로그램 종료q
     elif cv2.waitKey(1)&0xFF == ord('q'):
         os.exit()
-#이미지 창 닫기
-cv2.waitKey(0)
-cv2.destroyAllWindows()
