@@ -14,6 +14,7 @@ if not cap.isOpened():
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
+print("스페이스바를 눌러 엽서에 들어갈 사진을 촬영하세요.")
 while True:
     # 프레임 읽기
     ret, frame = cap.read()
@@ -59,7 +60,6 @@ while True:
 
 
         #이미지 병합하기 + 편지지 붙여넣기
-        #여기서 출력할 이미지를 편지지 처럼 만들 수 있습니다.
         size_image= np.shape(dst)
         blank_image = np.zeros((size_image[0],size_image[1]), np.uint8)
         i = 150
@@ -68,20 +68,24 @@ while True:
             cv2.line(blank_image, (20, i), (size_image[1]-20, i), (255, 255, 255))
             i=i+50
 
-        #이미지의 가로크기, 세로크기를 확인, 합칠 방향 결정
-        #여기서 출력할 이미지를 검은색으로 할 것인지,흰색으로 할 것인지 정할 수 있습니다. #여기선 둘다 구현해놓았습니다.
-        if src.shape[0]>src.shape[1]:
+        #이미지와 편지지를 합칠 방향 결정
+        direction = input("엽서를 세로로 만들려면 '1', 가로로 만들려면 '2'를 입력하세요: ")
+
+        if direction == '2':
             black = np.hstack((dst, blank_image))
         else:
             black = np.vstack((dst, blank_image))
-        white = cv2.bitwise_not(black)
-        #이미지 보여주기 + 저장
 
+        white = cv2.bitwise_not(black)
+
+        # 이미지 보여주기 + 저장
         cv2.imshow('black_version', black)
         cv2.imwrite("black_version_PostCard.jpg", black)
         cv2.imshow('white_version', white)
         cv2.imwrite("white_version_PostCard.jpg", white)
-
+        print("이미지가 저장되었습니다.")
+        print("프로그램을 종료하려면 'q' 버튼을 누르세요.")
     # 'q' 눌러서 프로그램 종료q
+
     elif cv2.waitKey(1)&0xFF == ord('q'):
         os.exit()
