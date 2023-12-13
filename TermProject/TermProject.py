@@ -76,6 +76,7 @@ while True:
             black = np.vstack((dst, blank_image))
 
 
+            #편지지의 배경색을 선택  
         background=input("엽서 배경 색상을 선택하세요. 1)검은색 2)흰색 3)회색: ")
 
         if background == '1':
