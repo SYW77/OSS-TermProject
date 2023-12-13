@@ -76,16 +76,26 @@ while True:
         else:
             black = np.vstack((dst, blank_image))
 
-        white = cv2.bitwise_not(black)
+        # 편지지의 배경색을 선택
+        background = input("엽서 배경 색상을 선택하세요. 1)검은색 2)흰색 3)회색: ")
+
+        if background == '1':
+            image = black
+
+        elif background == '2':
+            image = cv2.bitwise_not(black)
+
+        elif background == '3':
+                black[black == 0] = 150
+                image = black
 
         # 이미지 보여주기 + 저장
-        cv2.imshow('black_version', black)
-        cv2.imwrite("black_version_PostCard.jpg", black)
-        cv2.imshow('white_version', white)
-        cv2.imwrite("white_version_PostCard.jpg", white)
+        cv2.imshow('PostCard', image)
+        cv2.imwrite("PostCard.jpg", image)
+
         print("이미지가 저장되었습니다.")
         print("프로그램을 종료하려면 'q' 버튼을 누르세요.")
-    # 'q' 눌러서 프로그램 종료q
+        # 'q' 눌러서 프로그램 종료q
 
-    elif cv2.waitKey(1)&0xFF == ord('q'):
+    elif cv2.waitKey(1) & 0xFF == ord('q'):
         os.exit()
