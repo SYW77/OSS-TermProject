@@ -57,38 +57,37 @@ while True:
         ratio = 700.0 / src.shape[1]
         dim = (700, int(src.shape[0] * ratio))
 
+
+
         #이미지 병합하기 + 편지지 붙여넣기
         size_image= np.shape(dst)
         blank_image = np.zeros((size_image[0],size_image[1]), np.uint8)
         i = 150
-
-        cv2.line(blank_image, (50, i-60), (size_image[1]-50, i-60), (0, 0, 0))
+        cv2.line(blank_image, (50, i-60), (size_image[1]-50, i-60), (255, 255, 255))
         while size_image[0]>i:
-            cv2.line(blank_image, (20, i), (size_image[1]-20, i), (0, 0, 0))
+            cv2.line(blank_image, (20, i), (size_image[1]-20, i), (255, 255, 255))
             i=i+50
 
         #이미지와 편지지를 합칠 방향 결정
         direction = input("엽서를 세로로 만들려면 '1', 가로로 만들려면 '2'를 입력하세요: ")
 
-        if src.shape[0] > src.shape[1]:
+        if direction == '2':
             black = np.hstack((dst, blank_image))
         else:
             black = np.vstack((dst, blank_image))
 
-
-            #편지지의 배경색을 선택  
-        background=input("엽서 배경 색상을 선택하세요. 1)검은색 2)흰색 3)회색: ")
+        # 편지지의 배경색을 선택
+        background = input("엽서 배경 색상을 선택하세요. 1)검은색 2)흰색 3)회색: ")
 
         if background == '1':
-            image =black
+            image = black
 
         elif background == '2':
             image = cv2.bitwise_not(black)
 
         elif background == '3':
-            black[black==0]=150
-            image=black
-
+                black[black == 0] = 150
+                image = black
 
         # 이미지 보여주기 + 저장
         cv2.imshow('PostCard', image)
@@ -96,7 +95,7 @@ while True:
 
         print("이미지가 저장되었습니다.")
         print("프로그램을 종료하려면 'q' 버튼을 누르세요.")
-    # 'q' 눌러서 프로그램 종료q
+        # 'q' 눌러서 프로그램 종료q
 
-    elif cv2.waitKey(1)&0xFF == ord('q'):
+    elif cv2.waitKey(1) & 0xFF == ord('q'):
         os.exit()
